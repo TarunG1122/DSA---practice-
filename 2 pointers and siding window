@@ -1,0 +1,572 @@
+###############################################
+
+######## patterns
+
+## 1) constant window
+
+# def max_sum_brute_force(arr, k):
+#     n = len(arr)
+#     max_sum = float('-inf')  # Initialize to negative infinity
+#
+#     # Loop through the array and compute the sum of each window of size k
+#     for i in range(n - k + 1):
+#         current_sum = 0
+#         # Compute the sum of the window starting at index i
+#         for j in range(i, i + k):
+#             current_sum += arr[j]
+#         max_sum = max(max_sum, current_sum)
+#
+#     return max_sum
+#
+# arr = [-1,2,3,4,1,-4,5,6,7]
+# k = 4
+# print(max_sum_brute_force(arr,k))
+
+
+# def max_sum_better_force(arr, k):
+#
+#     n = len(arr)
+#
+#     window_sum = sum(arr[:k])
+#
+#     max_sum = window_sum
+#
+#     for i in range(k,n):
+#
+#         window_sum += arr[i] - arr[i-k]
+#         max_sum = max(max_sum,window_sum)
+#
+#     return max_sum
+#
+# arr = [-1,2,3,4,1,-4,5,6,7]
+# k = 4
+# print(max_sum_better_force(arr,k))
+
+
+
+##########################################################################################
+
+#### longest subarrat / substring where (condition)
+
+
+# def longest_sub_brute(arr, target):
+#     n = len(arr)
+#     max_len = 0
+#
+#     for i in range(n):
+#         summ = 0
+#         for j in range(i, n):
+#             summ += arr[j]
+#             if summ <= target:
+#                 max_len = max(max_len, j - i + 1)
+#
+#     return max_len
+#
+# arr = [2, 5, 1, 7, 10]
+# k = 14
+#
+# print(longest_sub_brute(arr, k))
+
+
+
+# def longest_sub_better(arr, target):
+#     n = len(arr)
+#     start = 0
+#     max_len = 0
+#     summ = 0
+#
+#     for i in range(n):
+#         summ += arr[i]
+#
+#         while summ > target:
+#
+#             summ -= arr[start]
+#             start += 1
+#
+#
+#         max_len = max(max_len,i - start + 1)
+#
+#     return max_len
+#
+#
+#
+# arr = [2, 5, 1, 7, 10]
+# k = 14
+#
+# print(longest_sub_better(arr, k))
+
+
+
+
+##################################################################3
+
+### problems
+
+
+## 1) max points you can obatain from cards
+
+
+arr = [6,2,3,4,7,2,1,7,1]
+k = 4
+
+
+# def max_points_from_cards(arr,k):
+#
+#     n  = len(arr)
+#     max_sum = 0
+#
+#     for i in range(n-k+1):
+#         current_sum = 0
+#         for j in range(i,i+k):
+#             current_sum += arr[j]
+#
+#         max_sum = max(max_sum,current_sum)
+#
+#     return max_sum
+#
+# print(max_points_from_cards(arr,k))
+
+
+# def max_points_from_cards_better(arr,k):
+#
+#     n = len(arr)
+#
+#     window = sum(arr[:k])
+#     max_sum = window
+#
+#     for i in range(k,n):
+#         print(i)
+#         window += arr[i] - arr[i-k]
+#
+#         max_sum = max(max_sum,window)
+#
+#     return max_sum
+# print(max_points_from_cards_better(arr,k))
+# #
+#
+
+#####################################################################
+
+### 2 longest substring without repeating character
+
+# def length_of_longest_substring_two_loops(s):
+#
+#     n = len(s)
+#     max_length = 0
+#
+#     for i in range(n):
+#         seen = set()
+#
+#         for j in range(i,n):
+#             if s[j] in seen:
+#                 break
+#
+#             seen.add(s[j])
+#             max_length = max(max_length,j-i+1)
+#
+#     return max_length
+#
+#
+#
+# # Example usage
+# print(length_of_longest_substring_two_loops("abcabcbb"))  # Output: 3
+
+
+################### optimized
+
+
+# def length_of_longest_substring(s: str) -> int:
+#     # Set to store characters in the current window
+#     char_set = set()
+#     left = 0
+#     max_length = 0
+#
+#     for right in range(len(s)):
+#         # If the character is a duplicate, shrink the window
+#         while s[right] in char_set:
+#             char_set.remove(s[left])
+#             left += 1
+#         # Add the current character and update the maximum length
+#         char_set.add(s[right])
+#         max_length = max(max_length, right - left + 1)
+#
+#     return max_length
+#
+#
+# # Example
+# s = "abcabcbb"
+# print("Length of the longest substring:", length_of_longest_substring(s))
+
+################################################################################################################
+
+# def length_of_longest_substring_optimized(s: str) -> int:
+#     # Set to store characters in the current window
+#     char_set = set()
+#     left = 0
+#     max_length = 0
+#
+#
+#     for right in range(len(s)):
+#
+#         while s[right] in char_set:
+#             char_set.remove(s[left])
+#             left += 1
+#
+#
+#         char_set.add(s[right])
+#         max_length = max(max_length,right- left+1)
+#
+#     return max_length
+
+#
+#
+# # Example
+# s = "abcabcbb"
+# print("Length of the longest substring:", length_of_longest_substring_optimized(s))
+
+#############################################################################################
+
+
+################# max consecutive onces 3 - 2 pointers and sliding 5window
+0
+
+# def longestOnesBruteForce(nums, k):
+#     n = len(nums)
+#     max_length = 0
+#
+#     for i in range(n):
+#         zeros_count = 0
+#         for j in range(i, n):
+#             if nums[j] == 0:
+#                 zeros_count += 1
+#             if zeros_count > k:
+#                 break
+#             max_length = max(max_length, j - i + 1)
+#
+#     return max_length
+#
+#
+# # Example usage
+# nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0]
+# k = 2
+# print(longestOnesBruteForce(nums, k))  # Output: 6
+
+
+# def longestOnes(nums, k):
+#     left = 0
+#     max_length = 0
+#     zeros_count = 0
+#
+#     for right in range(len(nums)):
+#         # Include the current element
+#         if nums[right] == 0:
+#             zeros_count += 1
+#
+#         # If zeros exceed k, shrink the window
+#         while zeros_count > k:
+#             if nums[left] == 0:
+#                 zeros_count -= 1
+#             left += 1
+#
+#         # Calculate the maximum length
+#         max_length = max(max_length, right - left + 1)
+#
+#     return max_length
+#
+#
+# # Example usage
+# nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0]
+# k = 2
+# print(longestOnes(nums, k))  # Output: 6
+#
+
+
+######################################################################################################
+
+### fruits into baskets
+
+# def fruits_into_basket_brute(arr,k):
+#
+#     max_fruits = 0
+#
+#     for i in range(len(arr)):
+#
+#         basket = set()
+#
+#         current_fruit = 0
+#
+#         for j in range(i,len(arr)):
+#             basket.add(arr[j])
+#
+#             if len(basket) > 2:
+#                 break
+#             current_fruit += 1
+#
+#         max_fruits = max(max_fruits,current_fruit)
+#
+#     return max_fruits
+#
+#
+#
+# arr = [3,3,3,1,2,1,1,2,3,3,4]
+# k =2
+# print(fruits_into_basket_brute(arr,k))
+
+
+# def totalFruit(fruits):
+#     basket = {}  # To store the count of each fruit
+#     left = 0  # Start of the sliding window
+#     max_fruits = 0  # Maximum fruits collected in a valid window
+#
+#     for right in range(len(fruits)):  # Expand the window
+#         fruit = fruits[right]
+#
+#         # Explicitly check if fruit exists in the basket
+#         if fruit in basket:
+#             basket[fruit] += 1
+#         else:
+#             basket[fruit] = 1
+#
+#         # Shrink the window if we have more than 2 types of fruits
+#         while len(basket) > 2:
+#             basket[fruits[left]] -= 1  # Remove one fruit at the left
+#             if basket[fruits[left]] == 0:  # If no more of this fruit, remove it
+#                 del basket[fruits[left]]
+#             left += 1  # Move the window start forward
+#
+#         # Update the maximum fruits collected
+#         max_fruits = max(max_fruits, right - left + 1)
+#
+#     return max_fruits
+#
+# arr = [3,3,3,1,2,1,1,2,3,3,4]
+# print(totalFruit(arr))
+
+
+
+
+
+##############################################################################################
+
+### longest substring with K distinct character
+
+
+# def longest_substring_with_k_distinct_brute(s, k):
+#     n = len(s)
+#     max_length = 0
+#
+#     for i in range(n):
+#
+#         distince_character = set()
+#
+#         for j in range(i,n):
+#
+#             distince_character.add(s[j])
+#
+#             if len(distince_character) > k:
+#                 break
+#
+#
+#             max_length = max(max_length,j-i +1)
+#
+#     return max_length
+#
+#
+# # Example
+# s = "araaci"
+# k = 2
+# print("Brute Force:", longest_substring_with_k_distinct_brute(s, k))  # Output: 4
+
+
+# def longest_substring_with_k_distinct(s, k):
+#     n = len(s)
+#     max_length = 0
+#     char_count = {}
+#     left = 0
+#
+#
+#     for right in range(n):
+#
+#         if s[right] in char_count:
+#
+#             char_count[s[right]] += 1
+#         else:
+#             char_count[s[right]] = 1
+#
+#         while len(char_count) > k:
+#
+#             char_count[s[left]] -= 1
+#
+#             if char_count[s[left]] == 0:
+#
+#                 del char_count[s[left]]
+#
+#
+#             left += 1
+#
+#
+#         max_length = max(max_length,right - left + 1)
+#
+#     return  max_length
+# # Example
+# s = "araaci"
+# k = 2
+# print("Sliding Window:", longest_substring_with_k_distinct(s, k))  # Output: 4
+#
+
+
+
+
+###########################################################################################
+
+
+######## Number of Substrings Containing All Three Characters
+#
+#
+# def numberOfSubstrings(s: str) -> int:
+#     count = 0
+#     n = len(s)
+#     for i in range(n):
+#         for j in range(i +1 , n +1):
+#             substring = s[i:j]
+#             if 'a' in substring and 'b' in substring and 'c' in substring:
+#                 count += 1
+#     return count
+#
+# # Example
+# s = "abcabc"
+# print(numberOfSubstrings(s))  # Output: 10
+#
+#
+# def numberOfSubstrings(s: str) -> int:
+#     count = {'a': 0, 'b': 0, 'c': 0}
+#     left = 0
+#     result = 0
+#     n = len(s)
+#
+#     for right in range(n):
+#         # Include the current character in the window
+#         count[s[right]] += 1
+#
+#         # Check if the window is valid (contains all 'a', 'b', 'c')
+#         while count['a'] > 0 and count['b'] > 0 and count['c'] > 0:
+#             # Count substrings starting from the current window
+#             result += n - right
+#             # Shrink the window
+#             count[s[left]] -= 1
+#             left += 1
+#
+#     return result
+#
+#
+# # Example
+# s = "abcabc"
+# print(numberOfSubstrings(s))  # Output: 10
+#
+#
+
+
+###############################################################################
+
+###### longest  repeating character replacedment
+
+# def long_repating_char_replace_brute(s, k):
+#     n = len(s)
+#     max_len = 0
+#
+#     for i in range(n):
+#         max_freq = 0
+#         freq = {}
+#
+#         for j in range(i,n):
+#
+#             if s[j] in freq:
+#                 freq[s[j]] += 1
+#             else:
+#                 freq[s[j]] =  1
+#
+#             max_freq = max(max_freq,freq[s[j]])
+#
+#             if (j-i+1) - max_freq <= k:
+#                 max_len = max(max_len,j-i+1)
+#             else:
+#                 break
+#
+#     print(max_len)
+#
+#
+# s = 'AABABBA'
+# k = 2
+# long_repating_char_replace_brute(s, k)
+
+
+
+# def long_repating_char_replace_optmized(s, k):
+#     n = len(s)
+#     max_len = 0
+#     max_freq = 0
+#     freq = {}
+#     left = 0
+#
+#     for right in range(len(s)):
+#         freq[s[right]] = freq.get(s[right],0) + 1
+#
+#         max_freq = max(max_freq,freq[s[right]])
+#
+#         if(right-left+1) - max_freq > k:
+#
+#             freq[s[left]] -= 1
+#             left += 1
+#
+#         max_len = max(max_len,right - left+1)
+#
+#     print(max_len)
+#
+#
+# s = 'AABABBA'
+# k = 2
+# long_repating_char_replace_optmized(s, k)
+
+
+#################################################################################
+#############
+
+
+############## binary subarray with sum k
+
+# def numSubarraysWithSum(nums, S):
+#     count = 0
+#     for i in range(len(nums)):
+#         total = 0
+#         for j in range(i, len(nums)):
+#             total += nums[j]
+#             if total == S:
+#                 count += 1
+#     return count
+#
+# nums = [1,0,1,0,1]
+# S = 2
+# print(numSubarraysWithSum(nums, S))
+
+
+
+# optmized
+
+def numSubarraysWithSum(nums, S):
+    prefix_sum_count = {0: 1}  # Initial prefix sum
+    prefix_sum = 0
+    count = 0
+
+    for num in nums:
+        prefix_sum += num
+        if prefix_sum - S in prefix_sum_count:
+            count += prefix_sum_count[prefix_sum - S]
+        prefix_sum_count[prefix_sum] = prefix_sum_count.get(prefix_sum, 0) + 1
+
+    return count
+
+
+nums = [1,0,1,0,1]
+S = 2
+print(numSubarraysWithSum(nums, S))
+
